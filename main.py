@@ -32,19 +32,19 @@ app.add_middleware(
 # Bedrock 클라이언트 초기화 (기존 로직 유지)
 bedrock_runtime = boto3.client(
     service_name='bedrock-runtime',
-    region_name='us-east-1' # Claude 3는 버지니아 리전을 주로 사용합니다.
+    region_name='us-east-1' 
 )
 
 class ChatRequest(BaseModel):
     prompt: str
     history: list = [] # 채팅 기록
-    conv_id: int = 1   # 임시 대화방 ID
+    user_ip: str = "unknown"
 
 @app.post("/chat")
 async def chat_with_claude(request: ChatRequest, db: Session = Depends(get_db)):
     try:
         # 1. 사용자의 질문을 RDS 'messages' 테이블에 저장
-        user_msg = models.Message(role="user", content=request.prompt, conv_id=request.conv_id)
+        user_msg = models.Message(role="user", content=request.prompt, conv_id=request.user_ip)
         db.add(user_msg)
         db.commit()
 
@@ -74,7 +74,7 @@ async def chat_with_claude(request: ChatRequest, db: Session = Depends(get_db)):
         claude_response = response_body['content'][0]['text']
 
         # 3. Claude의 답변을 RDS 'messages' 테이블에 저장
-        bot_msg = models.Message(role="assistant", content=claude_response, conv_id=request.conv_id)
+        bot_msg = models.Message(role="assistant", content=claude_response, conv_id=request.user_ip)
         db.add(bot_msg)
         db.commit()
 
@@ -86,11 +86,11 @@ async def chat_with_claude(request: ChatRequest, db: Session = Depends(get_db)):
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/history/{conv_id}")
-async def get_chat_history(conv_id: int, db: Session = Depends(get_db)):
-    # 1. DB에서 해당 conv_id를 가진 메시지들을 생성 시간순(asc)으로 조회
+@app.get("/history/{user_ip}")
+async def get_chat_history(user_ip: str, db: Session = Depends(get_db)):
+    # 1. DB에서 해당 user_ip를 가진 메시지들을 생성 시간순(asc)으로 조회
     messages = db.query(models.Message)\
-                 .filter(models.Message.conv_id == conv_id)\
+                 .filter(models.Message.conv_id == user_ip)\
                  .order_by(models.Message.created_at.asc())\
                  .all()
     

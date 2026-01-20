@@ -21,7 +21,7 @@ class Conversation(Base):
 class Message(Base):
     __tablename__ = "messages"
     msg_id = Column(Integer, primary_key=True, index=True)
-    conv_id = Column(Integer, ForeignKey("conversations.conv_id"))
+    conv_id = Column(String, ForeignKey("conversations.conv_id"))
     role = Column(Enum('user', 'assistant'), nullable=False)
     content = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
