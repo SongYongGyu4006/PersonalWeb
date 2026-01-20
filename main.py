@@ -43,6 +43,14 @@ class ChatRequest(BaseModel):
 @app.post("/chat")
 async def chat_with_claude(request: ChatRequest, db: Session = Depends(get_db)):
     try:
+        db_conv = db.query(models.Conversation).filter(models.Conversation.conv_id == request.user_ip).first()
+        if not db_conv:
+            new_conv = models.Conversation(conv_id=request.user_ip)
+            db.add(new_conv)
+            db.commit() # 부모를 먼저 DB에 확정 저장
+            db.refresh(new_conv)
+            print(f"새로운 대화방 생성됨: {request.user_ip}")
+
         # 1. 사용자의 질문을 RDS 'messages' 테이블에 저장
         user_msg = models.Message(role="user", content=request.prompt, conv_id=request.user_ip)
         db.add(user_msg)
