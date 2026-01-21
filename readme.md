@@ -18,8 +18,8 @@ S3 버킷에 업로드
 
 ## 프로젝트 진행
 ### 세팅
-1. EC2 인스턴스 생성
-2. SSH를 통한 인스턴스 접속
+1. [EC2 인스턴스 생성](https://olrlobt.tistory.com/83)
+2. [SSH를 통한 인스턴스 접속](https://olrlobt.tistory.com/83)
 3. 필수패키지(ptython3) 설치 후 가상환경에서 진행
 4. nano 편집기로 코딩? or 로컬에서 코딩 후 git?
 
