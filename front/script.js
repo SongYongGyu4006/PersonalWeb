@@ -85,7 +85,7 @@ window.onload = async () => {
     try {
         userIP = await getMyIP();
         console.log("접속 IP:", userIP);
-        // 1. 백엔드에 1번 대화방의 히스토리를 요청
+        // 1. 백엔드에 유저IP 대화방의 히스토리를 요청
         const response = await fetch(`${BACKEND_URL.replace('/chat', '')}/history/${userIP}`);
         const data = await response.json();
         
