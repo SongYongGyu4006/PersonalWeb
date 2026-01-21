@@ -26,7 +26,5 @@ S3 버킷에 업로드
 4. nano 편집기로 코딩? or 로컬에서 코딩 후 git?
 
 ### 코딩
-5. [백엔드 구성 및 DB 연결](https://github.com/SongYongGyu4006/PersonalWeb/blob/main/back/back.md)
-6. 데이터베이스 스키마 설계
-7. [프론트엔드 통신 로직](https://github.com/SongYongGyu4006/PersonalWeb/tree/main/front)
-8. 데이터베이스 초기화 및 수정
+5. [백엔드 구성 및 DB](https://github.com/SongYongGyu4006/PersonalWeb/blob/main/back/back.md)
+6. [프론트엔드 구성](https://github.com/SongYongGyu4006/PersonalWeb/tree/main/front)
