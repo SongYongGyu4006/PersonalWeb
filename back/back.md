@@ -167,12 +167,11 @@ class Message(Base):
 2. models.py의 구조를 보고 RDS 내부에 users, conversations, messages 테이블을 자동 생성
 3. 사용자가 접속하면 프론트에서 get 호출(+IP 전달).
 4. get 호출 시, 백엔드는 models.Message 테이블에서 해당 IP와 일치하는 기록(conv_id == user_ip인)을 시간순으로 모두 조회 후 프론트에 반환.
-5. 만약 처음 접속한 IP라면, 백엔드는 해당 IP로 conv_id(PK)를 갖는 Conversation 객체를 생성준비
-6. 사용자가 메시지를 입력하고 '전송'버튼을 누르던가 enter을 치면, 프론트에서 post 호출.
-7. post 호출 시, 백엔드는 가장 먼저 DB에서 request.user_ip의 대화방이 있는지 확인 후, 없다면 새로운 대화방을 만들고 커밋함.
-8. post가 호출되며 넘어온 request의 prompt(내용)을 Message 테이블에 저장(role = 'user', content = request.prompt, conv_id = request.user_ip).
-9. AI는 대화 문맥을 파악하기 위해 기존의 대화내용도 전달해줘야 해서 Message 리스트에 request.hitory를 저장한다. 또한 현재 질문(request.prompt)도 Message에 저장한다.
-10. invoke_model()을 통해 AI에게 json형태로 Message 등 각 파라미터를 넘기고 json 형태로 응답을 받는다.
-11. json.lead()를 통해 질의에 대한 응답을 읽고 그 내용을 추출한 다음 Message 테이블에 저장(role = 'assistant', content = 응답 내용, conv_id = request.user_ip).
-12. 또한 응답을 post의 반환값으로 반환한다.
+5. 사용자가 메시지를 입력하고 '전송'버튼을 누르던가 enter을 치면, 프론트에서 post 호출.
+6. post 호출 시, 백엔드는 가장 먼저 DB에서 request.user_ip의 대화방이 있는지 확인 후, 없다면 새로운 대화방을 만들고 커밋함.
+7. post가 호출되며 넘어온 request의 prompt(내용)을 Message 테이블에 저장(role = 'user', content = request.prompt, conv_id = request.user_ip).
+8. AI는 대화 문맥을 파악하기 위해 기존의 대화내용도 전달해줘야 해서 Message 리스트에 request.hitory를 저장한다. 또한 현재 질문(request.prompt)도 Message에 저장한다.
+9. invoke_model()을 통해 AI에게 json형태로 Message 등 각 파라미터를 넘기고 json 형태로 응답을 받는다.
+10. json.lead()를 통해 질의에 대한 응답을 읽고 그 내용을 추출한 다음 Message 테이블에 저장(role = 'assistant', content = 응답 내용, conv_id = request.user_ip).
+11. 또한 응답을 post의 반환값으로 반환한다.
 
