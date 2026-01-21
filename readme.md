@@ -28,5 +28,5 @@ S3 버킷에 업로드
 ### 코딩
 5. [백엔드 구성 및 DB 연결](https://github.com/SongYongGyu4006/PersonalWeb/blob/main/back/back.md)
 6. 데이터베이스 스키마 설계
-7. 프론트엔드 통신 로직
+7. [프론트엔드 통신 로직](https://github.com/SongYongGyu4006/PersonalWeb/tree/main/front)
 8. 데이터베이스 초기화 및 수정
